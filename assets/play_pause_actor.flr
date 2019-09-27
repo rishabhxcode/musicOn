@@ -1,0 +1,409 @@
+{
+	"version": 21,
+	"artboards": [
+		{
+			"name": "Artboard",
+			"translation": [
+				0,
+				0
+			],
+			"width": 400,
+			"height": 400,
+			"origin": [
+				0,
+				0
+			],
+			"clipContents": true,
+			"color": [
+				0.364705890417099,
+				0.364705890417099,
+				0.364705890417099,
+				1
+			],
+			"nodes": [
+				{
+					"name": "New Shape",
+					"translation": [
+						-0.5620841979980469,
+						1.3313359022140503
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 1,
+					"type": "shape"
+				},
+				{
+					"name": "Path",
+					"parent": 0,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								0,
+								0
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								200,
+								100
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								200,
+								300
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								0,
+								400
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "Path",
+					"parent": 0,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								400,
+								200
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								300,
+								150
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								200,
+								100
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								200,
+								300
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "Color",
+					"parent": 0,
+					"opacity": 1,
+					"color": [
+						1,
+						0,
+						0,
+						1
+					],
+					"fillRule": 0,
+					"type": "colorFill"
+				},
+				{
+					"name": "Color",
+					"parent": 0,
+					"opacity": 1,
+					"color": [
+						1,
+						0,
+						0,
+						1
+					],
+					"width": 5,
+					"cap": 0,
+					"join": 0,
+					"trim": 0,
+					"type": "colorStroke"
+				}
+			],
+			"animations": [
+				{
+					"name": "play to pause",
+					"fps": 60,
+					"duration": 0.3333333333333333,
+					"isLooping": false,
+					"keyed": [
+						{
+							"component": 0,
+							"posY": [
+								[
+									{
+										"time": 0.31666666666666665,
+										"interpolatorType": 1,
+										"value": 0
+									}
+								]
+							],
+							"posX": [
+								[
+									{
+										"time": 0.31666666666666665,
+										"interpolatorType": 1,
+										"value": 0
+									}
+								]
+							]
+						},
+						{
+							"component": 1,
+							"pathVertices": [
+								[
+									{
+										"time": 0.016666666666666666,
+										"interpolatorType": 1,
+										"value": [
+											0,
+											0,
+											0,
+											200,
+											100,
+											0,
+											200,
+											300,
+											0,
+											0,
+											400,
+											0
+										]
+									},
+									{
+										"time": 0.31666666666666665,
+										"interpolatorType": 2,
+										"cubicX1": 0.42,
+										"cubicY1": 0,
+										"cubicX2": 0.58,
+										"cubicY2": 1,
+										"value": [
+											65,
+											0,
+											0,
+											150,
+											0,
+											0,
+											150,
+											400,
+											0,
+											65,
+											400,
+											0
+										]
+									}
+								]
+							]
+						},
+						{
+							"component": 2,
+							"pathVertices": [
+								[
+									{
+										"time": 0.016666666666666666,
+										"interpolatorType": 1,
+										"value": [
+											400,
+											200,
+											0,
+											300,
+											150,
+											0,
+											200,
+											100,
+											0,
+											200,
+											300,
+											0
+										]
+									},
+									{
+										"time": 0.31666666666666665,
+										"interpolatorType": 2,
+										"cubicX1": 0.42,
+										"cubicY1": 0,
+										"cubicX2": 0.58,
+										"cubicY2": 1,
+										"value": [
+											335,
+											400,
+											0,
+											335,
+											-0.000006556510925292969,
+											0,
+											250,
+											0,
+											0,
+											250,
+											400,
+											0
+										]
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 0.31666666666666665,
+					"type": "animation"
+				},
+				{
+					"name": "pause to play",
+					"fps": 60,
+					"duration": 0.3333333333333333,
+					"isLooping": false,
+					"keyed": [
+						{
+							"component": 1,
+							"pathVertices": [
+								[
+									{
+										"time": 0.016666666666666666,
+										"interpolatorType": 1,
+										"value": [
+											65,
+											0,
+											0,
+											150,
+											0.0000010728836059570312,
+											0,
+											150,
+											400,
+											0,
+											65,
+											400,
+											0
+										]
+									},
+									{
+										"time": 0.31666666666666665,
+										"interpolatorType": 1,
+										"value": [
+											0,
+											1.1920928955078125e-7,
+											0,
+											200,
+											100,
+											0,
+											200,
+											300,
+											0,
+											0,
+											400,
+											0
+										]
+									}
+								]
+							]
+						},
+						{
+							"component": 2,
+							"pathVertices": [
+								[
+									{
+										"time": 0.016666666666666666,
+										"interpolatorType": 1,
+										"value": [
+											335,
+											400,
+											0,
+											335,
+											-0.000006556510925292969,
+											0,
+											250,
+											0.0000010728836059570312,
+											0,
+											250,
+											400,
+											0
+										]
+									},
+									{
+										"time": 0.31666666666666665,
+										"interpolatorType": 1,
+										"value": [
+											400,
+											200,
+											0,
+											300,
+											149.99996948242188,
+											0,
+											200,
+											100,
+											0,
+											200,
+											300,
+											0
+										]
+									}
+								]
+							]
+						}
+					],
+					"animationStart": 0,
+					"animationEnd": 0.31666666666666665,
+					"type": "animation"
+				}
+			],
+			"type": "artboard"
+		}
+	]
+}
