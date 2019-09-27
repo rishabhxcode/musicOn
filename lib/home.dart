@@ -142,80 +142,29 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                var object = forYou();
-                Navigator.push(context, _createRoute(-1.0,0.0,object));
-              },
-              child: Container(
-                  alignment: Alignment.center,
-                  width: 30,
-                  margin: EdgeInsets.symmetric(vertical: 2),
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      )),
-                  child: Icon(
-                    Icons.keyboard_arrow_left,
-                    size: 30,
-                  )),
-            ),
-            SizedBox(
-              width: 4,
-            ),
-            Text(
-              'musicOn',
-              style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.deepOrange,
-                  fontFamily: 'Srisakdi',
-                  fontWeight: FontWeight.w900),
-            ),
-          ],
+    Widget recentlyPlayed(int index){
+      return SizedBox(
+        height: y/7-1,
+        width: y/7-1,
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: y/9-1,
+                width: y/9-1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6)),
+                  color: colors2[index]
+                ),
+              ),
+              Text('Title')
+            ],
+          ),
         ),
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => searchPage()),
-              );
-            },
-            icon: Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 30,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.music_video,
-              color: Colors.black,
-              size: 26,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
+      );
+    }
+
+    return Scaffold(
         
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,10 +202,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemBuilder: (context, index) {
                   return card(index);
                 },
+                onPageChanged: (index){
+                   current = index;     
+                },
               ),
             ),
           ),
           /******************************************************/
+
+          Container(
+            margin: EdgeInsets.only(top: 2, bottom: 4),
+            child: Text(' Recently Played', style: TextStyle(fontSize: 20, fontFamily: 'Salsa'),)),
+          Container(
+            alignment: Alignment.center,
+            height: y/7,
+            child: ListView.builder(
+              itemCount: colors2.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return recentlyPlayed(index);
+              },
+            ),
+          )
+
         ],
       ),
     );

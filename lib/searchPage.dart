@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final y = MediaQuery.of(context).size.height;
     final x = MediaQuery.of(context).size.width;
     return Scaffold(
-      
+      body: Center(child: Text('Search Page..'),),
     );
   }
 }

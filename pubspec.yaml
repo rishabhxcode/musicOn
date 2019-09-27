@@ -46,6 +46,10 @@ flutter:
     - assets/play_pause_actor.flr
     - assets/playpause2.flr
     - assets/animated equilizor.flr
+    - assets/home_icon.flr
+    - assets/voices_icon.flr
+    - assets/radio_icon.flr
+    - assets/music_icon.flr
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
