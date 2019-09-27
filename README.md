@@ -1,6 +1,6 @@
-# page_view_cards
+# MusicOn
 
-A new Flutter project.
+Music playing App UI inspired from Gaana App
 
 ## Getting Started
 
