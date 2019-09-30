@@ -43,6 +43,8 @@ class _MyHomePageState extends State<MyMusic> {
               /*play(index);*/
               sProviderState.playSong(context);
               sProviderState.settingPlayPause(true);
+              sProviderState.setIsSongPlaying(true);
+              sProviderState.setEqLoopAnimation(true);
             },
             //leading: Ima,
             title: Text(

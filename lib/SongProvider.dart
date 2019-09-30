@@ -84,7 +84,7 @@ playSong(BuildContext context){
 stopSong(BuildContext context)async{
   final appState = Provider.of<SongProvider>(context);
   if(appState.getIsSongPlaying==true){
-    player.stop();
+    player.pause();
     appState.setIsSongPlaying(false);
   }
 }
