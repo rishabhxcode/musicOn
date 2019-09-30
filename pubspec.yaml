@@ -17,6 +17,9 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  audioplayers: ^0.13.2
+  flutter_audio_query: ^0.2.1
+  provider: ^3.1.0
   flutter:
     sdk: flutter
 
@@ -50,6 +53,7 @@ flutter:
     - assets/voices_icon.flr
     - assets/radio_icon.flr
     - assets/music_icon.flr
+    - images/SongArt.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:page_view_cards/SongProvider.dart';
 import 'package:page_view_cards/player.dart';
 import 'package:page_view_cards/home.dart';
 import 'package:page_view_cards/myMusic.dart';
@@ -7,20 +11,25 @@ import 'package:page_view_cards/radio.dart';
 import 'package:page_view_cards/voiceSearch.dart';
 import 'package:page_view_cards/foryou.dart';
 import 'package:page_view_cards/searchPage.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
+    return ChangeNotifierProvider<SongProvider>(
+      builder: (_)=>SongProvider(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: MyHomePage(),
+      )
     );
+
   }
 }
 
@@ -54,14 +63,35 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  List<Widget> pages = [Home(), VoiceSearch(), MyRadio(), MyMusic()];
+  List<SongInfo> songs;
+
+  @override
+  initState() {
+    super.initState();
+    playList();
+  }
+
+  void playList() async {
+    FlutterAudioQuery audioQuery = FlutterAudioQuery();
+
+    songs = await audioQuery.getSongs();
+  }
+
+  List<Widget> pages = [
+    Home(),
+    VoiceSearch(),
+    MyRadio(),
+    MyMusic(),
+  ];
   int _pageIndex = 0;
   Color page1 = Colors.red;
   Color page2 = Colors.black87;
   Color page3 = Colors.black87;
   Color page4 = Colors.black87;
+
   @override
   Widget build(BuildContext context) {
+    final songProviderState = Provider.of<SongProvider>(context);
     final x = MediaQuery.of(context).size.width;
     final y = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -74,14 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
             InkWell(
               onTap: () {
                 var object = forYou();
-                Navigator.push(context, _createRoute(-1.0,0.0,object));
+                Navigator.push(context, _createRoute(-1.0, 0.0, object));
               },
               child: Container(
                   alignment: Alignment.center,
                   width: 30,
                   margin: EdgeInsets.symmetric(vertical: 2),
                   decoration: BoxDecoration(
-                      color: Colors.red,
+
+                     color: Colors.red,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(8),
                         bottomRight: Radius.circular(8),
@@ -170,6 +201,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 46,
                             width: 46,
                             decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                  image: songProviderState.getCurrentSong == null
+                                      ? AssetImage(
+                                      'images/SongArt.png')
+                                      : songProviderState.getCurrentSong.albumArtwork == null
+                                      ? AssetImage(
+                                      'images/SongArt.png')
+                                      : FileImage(
+                                    File(
+                                        '${songProviderState.getCurrentSong.albumArtwork}'),
+                                  )),
                               color: Colors.red,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8)),
@@ -181,18 +224,22 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  'Song Title',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600),
+                                FittedBox(
+                                  child: Text(
+                                    '${songProviderState.getCurrentSong == null ? 'Song Title' : songProviderState.getCurrentSong.displayName.length <=20 ? songProviderState.getCurrentSong.displayName : songProviderState.getCurrentSong.displayName.substring(0, 22) + '..'}',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                                Text(
-                                  'SubTitle-Artist Name',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w500),
+                                FittedBox(
+                                  child: Text(
+                                    '${songProviderState.getCurrentSong == null ?'Artist' : songProviderState.getCurrentSong.artist.length<=23?songProviderState.getCurrentSong.artist : songProviderState.getCurrentSong.artist.substring(0,23)+'..'}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ],
                             ),
@@ -200,14 +247,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                if (playpauseflag == 0) {
-                                  playpauseflag = 1;
+                                if (songProviderState.getIsSongPlaying==false && songProviderState.getCurrentSong!=null) {
+                                  songProviderState.setIsSongPlaying(true);
+                                  songProviderState.settingPlayPause(true);
+                                  songProviderState.setEqLoopAnimation(true);
+                                  songProviderState.playSong(context);
                                   playpause = 'play to pause';
                                 } else {
-                                  if (playpause == 'play to pause')
+                                  if (songProviderState.getIsSongPlaying==true) {
+                                    songProviderState.setEqLoopAnimation(false);
+                                    songProviderState.settingPlayPause(false);
+                                    songProviderState.stopSong(context);
                                     playpause = 'pause to play';
-                                  else if (playpause == 'pause to play')
-                                    playpause = 'play to pause';
+
+                                  }
                                 }
                               });
                             },
@@ -219,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 'assets/play_pause_actor.flr',
                                 alignment: Alignment.center,
                                 color: Colors.red,
-                                animation: playpause,
+                                animation: songProviderState.getPlayPause!=null? songProviderState.getPlayPause: '',
                               ),
                             ),
                           ),
@@ -303,6 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       InkWell(
                         onTap: () {
+                          songProviderState.setSongsList(songs);
                           setState(() {
                             _pageIndex = 3;
                             page4 = Colors.redAccent;

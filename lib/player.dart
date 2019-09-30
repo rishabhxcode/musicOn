@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:page_view_cards/SongProvider.dart';
+import 'package:provider/provider.dart';
 
-class Player extends StatelessWidget {
+class Player extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: MyHomePage(),
-    );
-  }
+  _PlayerState createState() => _PlayerState();
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _PlayerState extends State<Player> {
   String playanim = '';
   int playanimflag = 0;
   String eqloop = 'stop';
@@ -32,13 +20,18 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    
-     repeatcolor = Colors.white;
-    repeatIcon = Icon(Icons.repeat, color: Colors.white,);
+
+    repeatcolor = Colors.white;
+    repeatIcon = Icon(
+      Icons.repeat,
+      color: Colors.white,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final songProvider = Provider.of<SongProvider>(context);
+
     final y = MediaQuery.of(context).size.height;
     final x = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -103,8 +96,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: FlareActor(
                             'assets/animated equilizor.flr',
                             fit: BoxFit.contain,
-                            color: eqcolor,
-                            animation: eqloop,
+                            color: songProvider.geteqLoopAnimation == null
+                                ? Colors.white
+                                : songProvider.geteqLoopAnimation == 'startloop'
+                                    ? Colors.red
+                                    : Colors.white,
+                            animation: songProvider.geteqLoopAnimation != null
+                                ? songProvider.geteqLoopAnimation
+                                : 'stop',
                           ),
                         ),
                         Container(
@@ -112,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           width: x / 1.75,
                           height: y * 0.05,
                           child: Text(
-                            'Song title - Artist name',
+                            '${songProvider.getCurrentSong == null ? 'Song Title' : songProvider.getCurrentSong.title}',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -151,21 +150,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
-                             if(repeatflag==0){
+                              if (repeatflag == 0) {
                                 repeatflag++;
-                                repeatIcon = Icon(Icons.repeat_one, color: Colors.redAccent);
-                             } else if(repeatflag == 1){
-                               repeatflag++;
-                               repeatIcon = Icon(Icons.repeat, color: Colors.redAccent,);
-                             }else if(repeatflag ==2){
-                               repeatflag = 0;
-                               repeatIcon = Icon(Icons.repeat, color: Colors.white,);
-                             }
+                                repeatIcon = Icon(Icons.repeat_one,
+                                    color: Colors.redAccent);
+                              } else if (repeatflag == 1) {
+                                repeatflag++;
+                                repeatIcon = Icon(
+                                  Icons.repeat,
+                                  color: Colors.redAccent,
+                                );
+                              } else if (repeatflag == 2) {
+                                repeatflag = 0;
+                                repeatIcon = Icon(
+                                  Icons.repeat,
+                                  color: Colors.white,
+                                );
+                              }
                             });
                           },
-                            child: repeatIcon,
+                          child: repeatIcon,
                         ),
                         Icon(
                           Icons.skip_previous,
@@ -175,22 +181,42 @@ class _MyHomePageState extends State<MyHomePage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (playanimflag == 0) {
-                                playanim = 'play to pause';
-                                eqloop = 'startloop';
+                              if (songProvider.getIsSongPlaying == false &&
+                                  songProvider.getCurrentSong != null) {
+                                songProvider.setIsSongPlaying(true);
+                                songProvider.setEqLoopAnimation(true);
+                                //eqloop = 'startloop';
                                 eqcolor = Colors.red;
-                                playanimflag = 1;
-                              } else if (playanimflag == 1) {
-                                if (playanim == 'pause to play') {
-                                  playanim = 'play to pause';
-                                  eqloop = 'startloop';
-                                  eqcolor = Colors.red;
-                                } else if (playanim == 'play to pause') {
-                                  playanim = 'pause to play';
+                                songProvider.settingPlayPause(true);
+                                songProvider.playSong(context);
+                                // playpause = 'play to pause';
+                              } else {
+                                if (songProvider.getIsSongPlaying == true) {
+                                  songProvider.settingPlayPause(false);
+                                  songProvider.setEqLoopAnimation(false);
                                   eqloop = 'stop';
                                   eqcolor = Colors.white;
+                                  songProvider.stopSong(context);
+                                  //  playpause = 'pause to play';
                                 }
                               }
+
+//                              if (playanimflag == 0) {
+//                                playanim = 'play to pause';
+//                                eqloop = 'startloop';
+//                                eqcolor = Colors.red;
+//                                playanimflag = 1;
+//                              } else if (playanimflag == 1) {
+//                                if (playanim == 'pause to play') {
+//                                  playanim = 'play to pause';
+//                                  eqloop = 'startloop';
+//                                  eqcolor = Colors.red;
+//                                } else if (playanim == 'play to pause') {
+//                                  playanim = 'pause to play';
+//                                  eqloop = 'stop';
+//                                  eqcolor = Colors.white;
+//                                }
+//                              }
                             });
                           },
                           child: Container(
@@ -202,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 'assets/play_pause_actor.flr',
                                 color: Colors.yellowAccent,
                                 fit: BoxFit.contain,
-                                animation: playanim,
+                                animation: songProvider.getPlayPause,
                               )),
                         ),
                         Icon(
